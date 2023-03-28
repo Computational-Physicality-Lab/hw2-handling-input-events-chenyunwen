@@ -1,3 +1,44 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-8d59dc4de5201274e310e4c54b9627a8934c3b88527886e3b421487c677d23eb.svg)](https://classroom.github.com/a/vtMjwcap)
-# hw2-handling-input-events
-This is the starter code of [2023-Programming User Interface Homework](https://hackmd.io/@akairisu/HkUibgmx3)
+# hw1-Html-CSS-and-JavaScript
+
+### 姓名: 陳允玟
+### 你所實作的網站如何被測試，並描述你所繳交的任何額外 shirts.js 文件（若有）。
+- **頁首(header)** (基本上要求都有完成)
+    - 在每個頁面中(除了`not_implemented.html`)都有包含Header，並且有實作出點選公司logo會連結到主要頁面 (`index.html`)、T-SHIRTS 連結到產品列表頁面(`products.html`)，其他連結（包括購物車）連結到 `not_implemented.html` 頁面。
+    - 在選單選項懸停時結合動畫顯示紅色粗底線、購物車懸停時數字會改變顏色。
+- **頁尾(footer)** (基本上要求都有完成)
+    - 每個頁面皆有呈現頁尾(除了`not_implemented.html`)，其中 Contact Us, Site Map, Privacy Policy, Careers, Reviews 都能連結到 `not_implemented.html`，並且有純文字 Designed by Yun-Wen, Chen。
+    - 在以上具連結的按鈕懸停時文字都會由淺灰色更改為白色。
+
+- **主要頁面 (`index.html`)** (基本上要求都有完成)
+    - 在`index.html`中，有包含要求之 `home.png` 和兩個文字框。
+    
+- **產品列表頁面(`product.html`)** (基本上要求都有完成)
+    - 透過 `shirts.js` 定義的列表，為每項商品創建一個條目。產品列表頁面上的條目有列出圖片、名稱、顏色種類數。
+    - 點擊查看詳細資訊的按鈕或單擊詳細資訊按鈕或圖片，可連結至`details.html`。
+    - 按鈕懸停時文字都會由淺灰色更改為白色。
+    - 條目的橫排佈局數量會隨著視窗大小改變，以我的電腦測試是最多三件、最少一件。
+    - 若是缺失圖片會顯示`./shirt_images/not-found.png`，名稱缺失會顯示"**Not Found :(**"。
+    
+    
+- **產品詳細資訊頁面(`details.html`)** (基本上要求都有完成)
+    - 產品列表資料內容由` shirts.js` 文件中的資料生成。
+    - 所有可用選項顯示為button，並根據用戶的選擇切換顯示的圖片，可選擇正反面及顏色，正面和背面的選擇和顏色的選擇是獨立的。
+    - 按鈕懸停時文字都會由淺灰色或黑色更改為白色。
+    - 若是缺失圖片會顯示`./shirt_images/not-found.png`，名稱缺失會顯示"**Not Found :(**"，價格缺失會顯示"**$9999**"，商品描述缺失會顯示"**Nothing QQ**"。
+    
+- **尚未完成頁面(`not_implemented.html`)** (完成)
+    - 使用者可以使用瀏覽器的回上一頁按鈕離開該頁面。
+
+- **視窗的大小變化** (基本上要求都有完成)
+    - 當瀏覽器視窗的大小發生改變時，頁面物件會調整比例或位置，例如根據視窗寬度更改條目佈局或內容。
+ 
+- 額外 `shirts.js` 文件
+    `shirts_test.js`修改自`shirts.js`，增加圖片、價格、名稱、商品描述缺失的產品，或某個顏色缺失正面或背面的圖，或沒有白色的狀況等，以進行測試。
+    **若是該款式沒有任何一個顏色，則會直接忽略該品項(直接當作沒有)**
+### 你所實作的加分作業項目，以及如何觸發它。
+- **「快速查看」按鈕**
+    - `product.html`頁面上的每件衣服都有"Quick View"按鈕，顯示區塊位於頁面底部，並將視窗卷軸跳轉到畫面底部。
+    - 使用者可透過"Close"按鈕關閉此區塊，並且當快速查看的圖片被點擊時，會連結到詳細信息頁面。
+    
+### 其他你所實作的網站的有趣之處
+- 無

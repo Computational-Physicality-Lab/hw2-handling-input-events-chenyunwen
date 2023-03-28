@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SSUI HW1 - Details</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@200;500&family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- Your CSS Code -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+  <!-- JSON Shirt Object -->
+  <script src="shirts_test.js"></script>
+  <!-- <script src="shirts.js"></script> -->
+
+  <!-- Your JS Code -->
+  <script src="main.js"></script>
+</head>
+<body onload="initDetails()">
+  <!-- Your Code Here -->
+
+  <!-- Top red rect -->
+  <div>
+    <svg width="100%" height="30px" style="display:block">
+      <rect x="0" y="0" width="100%" height="100%" style="fill:#c51230;fill-opacity:1;stroke: opacity 0;" />
+    </svg>
+  </div>
+   <!-- Header -->
+  <div class="container header">
+    <!-- Logo -->
+    <a href="./index.html" style="height: 80px; margin-left: 5%; margin-top: 0px;">
+      <img src="./site_images/logo.png" alt="logo" style="width: auto; height: 100%;">
+    </a>
+
+    <!-- Company Name -->
+    <div> <span class="headerStyle">Scotty Shirts U Illustrate (SSUI)</span></div>
+    
+    <!-- Shopping Cart -->
+    <div class="container" style="height: 100%; width: 60px; justify-content: center; flex-direction: column; margin-right: 5%;">
+      <a href="./not_implemented.html"  class="shopping-cart container" >
+        <img src="./site_images/shopping-cart.svg" alt="shop" style="width: 40%; height: auto; filter: invert(100%)">
+        <span style="font-size: 20px;">0</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Gray Line -->
+  <hr style="margin: 0px;">
+  
+  <!-- Menu -->
+  <div class="menu">
+    <a class="menu-font" href="./products.html">T-SHIRTS</a>
+    <a class="menu-font" href="./not_implemented.html">CREATE FROM PICTURE</a>
+    <a class="menu-font" href="./not_implemented.html">CREATE YOUR OWN</a>
+    <a class="menu-font" href="./not_implemented.html">ABOUT US</a>
+    <a class="menu-font" href="./not_implemented.html">LOG IN</a>
+  </div>
+
+  <!-- Gray Line -->
+  <hr style="margin: 0px;">
+  
+  <p id="shirt-name" class="headerStyle" style="margin-top: 10px; margin-bottom: 10px; margin-left: 10%;">Nameless</p>
+
+  <div class="container" style="flex-direction: row; justify-content: space-between; margin-left: 10%; margin-right: 10%; margin-bottom: 10px;">    
+    <img id="shirt-img" src="./shirt_images/not-found.png" alt="shirt">
+    <div class="container" style="flex-direction: row; justify-content: space-between; width: 100%;">
+      
+      <div>
+      <p id="shirt-price" class="t-shirt-title">$99.99</p>
+      <p id="t-shirt-description">Nothing QQ</p>
+      
+      <!-- front and back btn -->
+      <div class="container" style="flex-direction: row; justify-content:left; margin: 3px;">
+        <span class="t-shirt-text" style="margin: 10px;">Side:</span>
+        <button type="button" onclick="change_img('front')" class="t-shirt-choose-btn">Front</button>
+        <button type="button" onclick="change_img('back')" class="t-shirt-choose-btn">Back</button>
+      </div>
+
+      <!-- color btn -->
+      <div id="color-btn-container" class="container" style="flex-direction: row; justify-content:left; margin: 3px;">
+        <span class="t-shirt-text" style="margin: 10px;">Color:</span>
+      </div>
+      </div>
+    </div>
+    
+  </div>
+  
+
+
+  <!-- Footer -->
+  <div class="footer">
+    <a class="footer-font" href="./not_implemented.html">Contact Us</a>
+    <a class="footer-font" href="./not_implemented.html">Site Map</a>
+    <a class="footer-font" href="./not_implemented.html">Privacy Policy</a>
+    <a class="footer-font" href="./not_implemented.html">Careers</a>
+    <a class="footer-font" href="./not_implemented.html">Reviews</a>
+    <samp class="footer-font" style="color: white">Designed by Yun-Wen, Chen</samp>
+  </div>
+</body>
+</html>
