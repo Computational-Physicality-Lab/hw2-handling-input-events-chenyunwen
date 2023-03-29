@@ -12,6 +12,7 @@ const targets = document.querySelectorAll(".target");
 
 let clickOn = false;            // can do click or not
 let isMouseDown = false;
+let isDoubleClick = false;
 let mouseX = 0, mouseY = 0;     // position when mouse down
 let oriX = 0, oriY = 0;         // top-left position of target
 let difX = 0, difY = 0;         // diff. between mouse pos and top-left of target
@@ -29,14 +30,27 @@ body.addEventListener("click", (event) => {
 }, false);
 
 body.addEventListener("mousemove", (e) => {
-    if(!isMouseDown) return;
+    if(!isMouseDown && !isDoubleClick) return;
     if(e.clientX != mouseX && e.clientY != mouseY) clickOn = false;
     targets[targetID].style.top = (e.clientY - difY) + "px";
     targets[targetID].style.left = (e.clientX - difX) + "px";
 }, false);
 
+document.onkeydown = (e) => {
+    if(e.keyCode == 27) {
+        console.log("Event: ESC");
+        if(isMouseDown || isDoubleClick){
+            targets[targetID].style.top = oriY + "px";
+            targets[targetID].style.left = oriX + "px";
+            isMouseDown = false;
+            isDoubleClick = false;
+        }
+    }
+};
+
 targets.forEach((target, index) => {
     target.addEventListener("mousedown", (e) => {
+        if(isDoubleClick) return;
         console.log("Event: mousedown");
         clickOn = true;
         isMouseDown = true;
@@ -53,11 +67,13 @@ targets.forEach((target, index) => {
 
     target.addEventListener("mouseup", (e) => {
         console.log("Event: mouseup");
+        if(isDoubleClick) isDoubleClick = false;
         isMouseDown = false;
     }, false);
 
     target.addEventListener("dblclick", (e) => {
         console.log("Event: dblclick");
+        isDoubleClick = true;
     }, false);
     
 });
