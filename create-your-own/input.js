@@ -77,11 +77,12 @@ document.onkeydown = (e) => {
 
 document.addEventListener("touchstart", (e) => {
     mode = 1;
-    console.log("Event: touchstart");
-    if (e.touches.length === 1) { // first finger
-        console.log("first finger");
-    } else if (e.touches.length === 2) { //second finger
-        console.log("second finger");
+    console.log("Event: document.touchstart");
+    // if (e.touches.length === 1) { // first finger
+    //     console.log("first finger");
+    // } else 
+    if (e.touches.length === 2) { //second finger
+        console.log("document second finger");
         if(isMoved/*isMouseDown || isDoubleClick*/){
             targets[targetID].style.top = oriY + "px";
             targets[targetID].style.left = oriX + "px";
@@ -171,8 +172,8 @@ targets.forEach((target, index) => {
     target.addEventListener("touchend", (e) => {
         // mode = 1;
         console.log("Event: touchend");
-        if(touchStart) console.log("touch click");
-        else console.log("touch w/o click");
+        // if(touchStart) console.log("touch click");
+        // else console.log("touch w/o click");
         touchStart = false;
     });
 });
