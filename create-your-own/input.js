@@ -126,6 +126,7 @@ targets.forEach((target, index) => {
         mode = 1;
         console.log("Event: touchstart");
         if (e.touches.length === 1) { // first finger
+            console.log("first finger");
             touchStart = true;
             // const TimeOut = setTimeout(stopTouchClick, 500);
             targetID = index;
@@ -138,6 +139,7 @@ targets.forEach((target, index) => {
             oriWidth = toString(e.target.style.width.split("px")[0]);
             oriHeight = toString(e.target.style.height.split("px")[0]);
         } else if (e.touches.length === 2) { //second finger
+            console.log("second finger");
             if(isMoved/*isMouseDown || isDoubleClick*/){
                 targets[targetID].style.top = oriY + "px";
                 targets[targetID].style.left = oriX + "px";
