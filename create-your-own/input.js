@@ -10,7 +10,7 @@ of the interaction.
 const body = document.querySelector("body");
 const targets = document.querySelectorAll(".target");
 
-let clickOn = false;            // can do click or not
+let isMoved = false;            // can do click or not
 let isMouseDown = false;
 let isDoubleClick = false;
 let mouseX = 0, mouseY = 0;     // position when mouse down
@@ -20,18 +20,24 @@ let targetID = -1;              // idx of currently interacting target
 let oriWidth = 0, oriHeight = 0;
 
 body.addEventListener("click", (event) => {
-    if(!clickOn) return;
     console.log("Event: click");
-    targets.forEach(target => { target.style.backgroundColor = "red";});
+    console.log(event.detail);
+    
     const isTarget = event.target.classList.contains('target');
-    // change the color of clicked target 
-    if(isTarget) event.target.style.backgroundColor = "#00f";
-    clickOn = false;
+    if(!isMoved && !isTarget ) {
+        // click background
+        targets.forEach(target => { target.style.backgroundColor = "red";});
+    } else if(!isMoved && isTarget) {
+        // change the color of clicked target 
+        targets.forEach(target => { target.style.backgroundColor = "red";});
+        event.target.style.backgroundColor = "#00f";
+    }
+    isMoved = false;
 }, false);
 
 body.addEventListener("mousemove", (e) => {
     if(!isMouseDown && !isDoubleClick) return;
-    if(e.clientX != mouseX && e.clientY != mouseY) clickOn = false;
+    isMoved = true;
     targets[targetID].style.top = (e.clientY - difY) + "px";
     targets[targetID].style.left = (e.clientX - difX) + "px";
 }, false);
@@ -48,13 +54,23 @@ document.onkeydown = (e) => {
     }
 };
 
+// for touchscreen devices
+document.addEventListener( "touchstart", (event) => {
+    console.log("Event: touchstart");
+    if (event.touches.length === 1) { // first finger
+    //   …
+    } else if (event.touches.length === 2) { //second finger
+    //   …
+    }
+});   
+
 targets.forEach((target, index) => {
     target.addEventListener("mousedown", (e) => {
         if(isDoubleClick) return;
         console.log("Event: mousedown");
-        clickOn = true;
         isMouseDown = true;
         targetID = index;
+        console.log(index);
         oriX = e.target.style.left.split("px")[0];
         oriY = e.target.style.top.split("px")[0];
         mouseX = e.clientX;
@@ -67,6 +83,7 @@ targets.forEach((target, index) => {
 
     target.addEventListener("mouseup", (e) => {
         console.log("Event: mouseup");
+        console.log(index);
         if(isDoubleClick) isDoubleClick = false;
         isMouseDown = false;
     }, false);
