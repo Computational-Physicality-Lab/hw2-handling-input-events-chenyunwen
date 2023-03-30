@@ -75,7 +75,7 @@ document.onkeydown = (e) => {
     }
 };
 
-target.addEventListener("touchstart", (e) => {
+document.addEventListener("touchstart", (e) => {
     mode = 1;
     console.log("Event: touchstart");
     if (e.touches.length === 1) { // first finger
