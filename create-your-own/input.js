@@ -75,6 +75,24 @@ document.onkeydown = (e) => {
     }
 };
 
+target.addEventListener("touchstart", (e) => {
+    mode = 1;
+    console.log("Event: touchstart");
+    if (e.touches.length === 1) { // first finger
+        console.log("first finger");
+    } else if (e.touches.length === 2) { //second finger
+        console.log("second finger");
+        if(isMoved/*isMouseDown || isDoubleClick*/){
+            targets[targetID].style.top = oriY + "px";
+            targets[targetID].style.left = oriX + "px";
+            isMouseDown = false;
+            touchStart = false;
+            isDoubleClick = false;
+            isMoved = false;
+        }
+    }
+});
+
 document.addEventListener("touchmove", (e) => {
     // mode = 1;
     if(!touchStart && !isDoubleClick) return;
