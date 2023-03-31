@@ -18,6 +18,7 @@ let isDoubleClick = false;
 let mouseX = 0, mouseY = 0;     // position when mouse down
 let oriX = 0, oriY = 0;         // top-left position of target
 let difX = 0, difY = 0;         // diff. between mouse pos and top-left of target
+let SelectedID = -1;            // idx of currently selecting target
 let targetID = -1;              // idx of currently interacting target
 let oriWidth = 0, oriHeight = 0;
 
@@ -26,7 +27,7 @@ let touchStart = false;
 document.addEventListener("click", (event) => {
     console.log("Event: click");
     // console.log(event.detail);
-    if(mode == 0){
+    /*if(mode == 0){
         // mouse mode
         const isTarget = event.target.classList.contains('target');
         if(!isMoved && !isTarget ) {
@@ -38,19 +39,17 @@ document.addEventListener("click", (event) => {
             event.target.style.backgroundColor = "#00f";
         }
         isMoved = false;
-    } else {
+    } else {*/
         // touch mode
         const isTarget = event.target.classList.contains('target');
         if(!isMoved && !isTarget ) {
             // click background
-            targets.forEach(target => { target.style.backgroundColor = "red";});
-        } else if(!isMoved && isTarget) {
-            // change the color of clicked target 
-            targets.forEach(target => { target.style.backgroundColor = "red";});
-            event.target.style.backgroundColor = "#00f";
+            if(targets[SelectedID]) targets[SelectedID].style.backgroundColor = "red";
+            SelectedID = -1;
+            // targets.forEach(target => { target.style.backgroundColor = "red";});
         }
         isMoved = false;
-    }
+    // }
     
 }, false);
 
@@ -70,7 +69,7 @@ document.onkeydown = (e) => {
             isMouseDown = false;
             touchStart = false;
             isDoubleClick = false;
-            isMoved = false;
+            // isMoved = false;
         }
     }
 };
@@ -111,6 +110,16 @@ function stopTouchClick(){
 }
 
 targets.forEach((target, index) => {
+    target.addEventListener("click", (e) => {
+        if(!isMoved) {
+            // change the color of clicked target 
+            if(targets[SelectedID]) targets[SelectedID].style.backgroundColor = "red";
+            SelectedID = index;
+            target.style.backgroundColor = "#00f";
+        }
+        isMoved = false;
+    }, false);
+
     target.addEventListener("mousedown", (e) => {
         if(isDoubleClick) return;
         mode = 0;
@@ -165,7 +174,7 @@ targets.forEach((target, index) => {
                 isMouseDown = false;
                 touchStart = false;
                 isDoubleClick = false;
-                isMoved = false;
+                // isMoved = false;
             }
         }
     });
