@@ -94,8 +94,8 @@ document.addEventListener("touchstart", (e) => {
         console.log("document second finger");
         if(changeSize){
             clearTimeout(TimeOut);
-            mouseX_2 = e.changedTouches[1].clientX;
-            mouseY_2 = e.changedTouches[1].clientY;
+            mouseX_2 = e.targetTouches[1].clientX;
+            mouseY_2 = e.targetTouches[1].clientY;
             console.log("x2 " + mouseX_2);
             console.log("y2 " + mouseY_2);
         } else if(isMoved/*isMouseDown || isDoubleClick*/){
