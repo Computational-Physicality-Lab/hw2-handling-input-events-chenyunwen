@@ -77,6 +77,7 @@ document.onkeydown = (e) => {
 };
 
 function stopChangeSize(){
+    console.log("stopChangeSize");
     changeSize = false;
 }
 
@@ -87,7 +88,7 @@ document.addEventListener("touchstart", (e) => {
     if (e.touches.length === 1) { // first finger
         console.log("first finger");
         changeSize = true;
-        TimeOut = setTimeout(stopTouchClick, 500);
+        TimeOut = setTimeout(stopChangeSize, 100);
     } else 
     if (e.touches.length === 2) { //second finger
         console.log("document second finger");
@@ -119,10 +120,13 @@ document.addEventListener("touchmove", (e) => {
         targets[targetID].style.top = (e.changedTouches[0].clientY - difY) + "px";
         targets[targetID].style.left = (e.changedTouches[0].clientX - difX) + "px";
     } else {
-        let new_width = oriWidth + (Math.abs(e.changedTouches[0].clientX - e.changedTouches[1].clientX) - Math.abs(mouseX-mouseX_2));
-        targets[targetID].style.left = (oriY - ((new_width - oriWidth) / 2)) + "px";
-        targets[targetID].style.width = new_width+ "px";
-        oriWidth = new_width;
+        console.log(Math.abs(e.changedTouches[0].clientX - e.changedTouches[1].clientX));
+        console.log(Math.abs(mouseX-mouseX_2));
+
+        // let new_width = oriWidth + (Math.abs(e.changedTouches[0].clientX - e.changedTouches[1].clientX) - Math.abs(mouseX-mouseX_2));
+        // targets[targetID].style.left = (oriY - ((new_width - oriWidth) / 2)) + "px";
+        // targets[targetID].style.width = new_width+ "px";
+        // oriWidth = new_width;
     }
     
 });
