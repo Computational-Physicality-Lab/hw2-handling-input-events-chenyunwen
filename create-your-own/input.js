@@ -152,7 +152,7 @@ body.addEventListener("touchmove", (e) => {
         let new_width = oriWidth + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - oriW);
         targets[targetID].style.left = (oriY - ((new_width - oriWidth) / 2)) + "px";
         targets[targetID].style.width = new_width+ "px";
-        oriWidth = new_width;
+        // oriWidth = new_width;
     }
     
 });
