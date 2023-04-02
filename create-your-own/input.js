@@ -83,10 +83,11 @@ function stopChangeSize(){
 document.addEventListener("touchstart", (e) => {
     mode = 1;
     console.log("Event: document.touchstart");
+    let TimeOut;
     if (e.touches.length === 1) { // first finger
         console.log("first finger");
         changeSize = true;
-        const TimeOut = setTimeout(stopTouchClick, 500);
+        TimeOut = setTimeout(stopTouchClick, 500);
     } else 
     if (e.touches.length === 2) { //second finger
         console.log("document second finger");
