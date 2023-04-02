@@ -116,7 +116,7 @@ document.addEventListener("touchstart", (e) => {
 body.addEventListener("touchmove", (e) => {
     // mode = 1;
     console.log("Event: touchmove_touchStart:" +touchStart);
-    if(!touchStart && !isDoubleClick) return;
+    if(!touchStart && !isDoubleClick && !changeSize) return;
     console.log("Event: touchmove");
     if(!changeSize){
         isMoved = true;
