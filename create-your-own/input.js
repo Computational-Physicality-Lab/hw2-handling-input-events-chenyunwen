@@ -121,6 +121,7 @@ document.addEventListener("touchmove", (e) => {
     } else {
         let new_width = oriWidth + (Math.abs(e.changedTouches[0].clientX - e.changedTouches[1].clientX) - Math.abs(mouseX-mouseX_2));
         targets[targetID].style.left = (oriY - ((new_width - oriWidth) / 2)) + "px";
+        targets[targetID].style.width = new_width+ "px";
         oriWidth = new_width;
     }
     
@@ -154,8 +155,8 @@ targets.forEach((target, index) => {
         mouseY = e.clientY;
         difX = mouseX - oriX;
         difY = mouseY - oriY;
-        oriWidth = toString(e.target.style.width.split("px")[0]);
-        oriHeight = toString(e.target.style.height.split("px")[0]);
+        oriWidth = e.target.style.width.split("px")[0];
+        oriHeight = e.target.style.height.split("px")[0];
     }, false);
 
     target.addEventListener("mouseup", (e) => {
