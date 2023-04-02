@@ -117,10 +117,11 @@ document.addEventListener("touchmove", (e) => {
         isMoved = true;
         // console.log("top: " + targets[targetID].style.top);
         // console.log("e.clientY - difY = " + (e.changedTouches[0].clientY - difY));
-        targets[targetID].style.top = (e.changedTouches[0].clientY - difY) + "px";
-        targets[targetID].style.left = (e.changedTouches[0].clientX - difX) + "px";
+        targets[targetID].style.top = (e.touches[0].clientY - difY) + "px";
+        targets[targetID].style.left = (e.touches[0].clientX - difX) + "px";
     } else {
-        console.log(Math.abs(e.changedTouches[0].clientX - e.changedTouches[1].clientX));
+        console.log(e.touches[0].clientX);
+        // console.log(Math.abs(e.touches[0].clientX - e.touches[1].clientX));
         console.log(Math.abs(mouseX-mouseX_2));
 
         // let new_width = oriWidth + (Math.abs(e.changedTouches[0].clientX - e.changedTouches[1].clientX) - Math.abs(mouseX-mouseX_2));
