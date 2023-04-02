@@ -125,34 +125,16 @@ body.addEventListener("touchmove", (e) => {
         targets[targetID].style.top = (e.touches[0].clientY - difY) + "px";
         targets[targetID].style.left = (e.touches[0].clientX - difX) + "px";
     } else {
-        console.log(e.targetTouches.length);
-        console.log(e.changedTouches.length);
-        if (e.targetTouches.length === 2 && e.changedTouches.length === 2) {
-            console.log("e.targetTouches.length === 2 && e.changedTouches.length === 2");
-            
-            console.log(e.targetTouches.length);
-            console.log(e.changedTouches.length);
-            // const point1 = tpCache.findLastIndex(
-            //     (tp) => tp.identifier === e.targetTouches[0].identifier
-            // );
-            const diff1 = Math.abs(
-                mouseX_2 - e.targetTouches[1].clientX
-            );
-            
-            //   const point2 = tpCache.findLastIndex(
-            //     (tp) => tp.identifier === ev.targetTouches[1].identifier
-            //   );
-            // console.log(e.touches[0].clientX);
-            // console.log(e.touches[1].clientX);
-            // console.log(Math.abs(e.touches[0].clientX - e.touches[1].clientX));
-            console.log(Math.abs(mouseX-mouseX_2));
-        }
-        if(!targets[targetID]) return;
+        // console.log(e.targetTouches.length);
+        // console.log(e.changedTouches.length);
+        // if (e.targetTouches.length === 2 && e.changedTouches.length === 2) {}
+
+        if(!targets[SelectedID]) return;
         console.log("e.targetTouches[1].clientX: " + e.targetTouches[1].clientX);
         let new_width = Number(oriWidth) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - oriW);
         console.log("new_widt: " + new_width);
-        targets[targetID].style.left = (oriX - ((new_width - oriWidth) / 2)) + "px";
-        targets[targetID].style.width = new_width + "px";
+        targets[SelectedID].style.left = (oriX - ((new_width - oriWidth) / 2)) + "px";
+        targets[SelectedID].style.width = new_width + "px";
         // oriWidth = new_width;
     }
     
