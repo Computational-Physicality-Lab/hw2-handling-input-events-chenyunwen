@@ -113,8 +113,9 @@ document.addEventListener("touchstart", (e) => {
     }
 });
 
-document.addEventListener("touchmove", (e) => {
+body.addEventListener("touchmove", (e) => {
     // mode = 1;
+    console.log("Event: touchmove_touchStart:" +touchStart);
     if(!touchStart && !isDoubleClick) return;
     console.log("Event: touchmove");
     if(!changeSize){
