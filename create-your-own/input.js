@@ -88,7 +88,7 @@ document.addEventListener("touchstart", (e) => {
     if (e.touches.length === 1) { // first finger
         console.log("first finger");
         changeSize = true;
-        TimeOut = setTimeout(stopChangeSize, 100);
+        // TimeOut = setTimeout(stopChangeSize, 100);
     } else 
     if (e.touches.length === 2) { //second finger
         console.log("document second finger");
@@ -120,9 +120,26 @@ document.addEventListener("touchmove", (e) => {
         targets[targetID].style.top = (e.touches[0].clientY - difY) + "px";
         targets[targetID].style.left = (e.touches[0].clientX - difX) + "px";
     } else {
-        console.log(e.touches[0].clientX);
-        // console.log(Math.abs(e.touches[0].clientX - e.touches[1].clientX));
-        console.log(Math.abs(mouseX-mouseX_2));
+        if (e.targetTouches.length === 2 && e.changedTouches.length === 2) {
+            console.log("e.targetTouches.length === 2 && e.changedTouches.length === 2");
+            
+            console.log(e.targetTouches.length);
+            console.log(e.changedTouches.length);
+            // const point1 = tpCache.findLastIndex(
+            //     (tp) => tp.identifier === e.targetTouches[0].identifier
+            // );
+            const diff1 = Math.abs(
+                mouseX_2 - e.targetTouches[1].clientX
+            );
+            console.log(diff1);
+            //   const point2 = tpCache.findLastIndex(
+            //     (tp) => tp.identifier === ev.targetTouches[1].identifier
+            //   );
+            // console.log(e.touches[0].clientX);
+            // console.log(e.touches[1].clientX);
+            // console.log(Math.abs(e.touches[0].clientX - e.touches[1].clientX));
+            console.log(Math.abs(mouseX-mouseX_2));
+        }
 
         // let new_width = oriWidth + (Math.abs(e.changedTouches[0].clientX - e.changedTouches[1].clientX) - Math.abs(mouseX-mouseX_2));
         // targets[targetID].style.left = (oriY - ((new_width - oriWidth) / 2)) + "px";
