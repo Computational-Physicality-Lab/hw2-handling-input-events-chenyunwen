@@ -124,7 +124,8 @@ document.addEventListener("touchmove", (e) => {
         targets[targetID].style.top = (e.touches[0].clientY - difY) + "px";
         targets[targetID].style.left = (e.touches[0].clientX - difX) + "px";
     } else {
-
+        console.log(e.targetTouches.length);
+        console.log(e.changedTouches.length);
         if (e.targetTouches.length === 2 && e.changedTouches.length === 2) {
             console.log("e.targetTouches.length === 2 && e.changedTouches.length === 2");
             
