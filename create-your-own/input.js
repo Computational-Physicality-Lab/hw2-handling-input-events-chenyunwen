@@ -95,6 +95,7 @@ document.addEventListener("touchstart", (e) => {
         console.log("document second finger");
         if(changeSize){
             clearTimeout(TimeOut);
+            console.log("clearTimeout: " + changeSize);
             mouseX_2 = e.targetTouches[1].clientX;
             mouseY_2 = e.targetTouches[1].clientY;
             console.log("x2 " + mouseX_2);
