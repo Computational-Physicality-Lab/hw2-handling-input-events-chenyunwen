@@ -151,7 +151,7 @@ body.addEventListener("touchmove", (e) => {
         console.log("e.targetTouches[1].clientX: " + e.targetTouches[1].clientX);
         let new_width = Number(oriWidth) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - oriW);
         console.log("new_widt: " + new_width);
-        targets[targetID].style.left = (oriY - ((new_width - oriWidth) / 2)) + "px";
+        targets[targetID].style.left = (oriX - ((new_width - oriWidth) / 2)) + "px";
         targets[targetID].style.width = new_width + "px";
         // oriWidth = new_width;
     }
