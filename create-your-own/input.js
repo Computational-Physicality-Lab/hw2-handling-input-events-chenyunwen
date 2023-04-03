@@ -10,24 +10,24 @@ of the interaction.
 const body = document.querySelector("body");
 const targets = document.querySelectorAll(".target");
 
-let isClick = true;
-let isMoved = false;            // can do click or not
-let isMouseDown = false;
+let isClick = true;             // can do click or not
+let isMoved = false;            // drag or dbclick
+let isMouseDown = false;        // drag or not
 let isDoubleClick = false;
-let changeSize = false;
+let changeSize = false;         // change size or not
 // for target
-let moveX = 0, moveY = 0;     // position when mouse down
+let moveX = 0, moveY = 0;               // position when mouse down on target
 let target_X = 0, target_Y = 0;         // top-left position of target
-let target_difX = 0, target_difY = 0;         // diff. between mouse pos and top-left of target
-let targetID = -1;              // idx of currently interacting target
+let target_difX = 0, target_difY = 0;   // diff. between mouse pos and top-left of target
+let targetID = -1;                      // idx of currently interacting target
 
 // for Selected
-let SelectedID = -1;            // idx of currently selecting target
-let selected_X = 0, selected_Y = 0;
-let selected_W = 0, selected_H = 0;
-let zoom_X1 = 0, zoom_X2 = 0;
+let SelectedID = -1;                    // idx of currently selecting target
+let selected_X = 0, selected_Y = 0;     // top-left position of selecting target
+let selected_W = 0, selected_H = 0;     // W & H of selecting target
+let zoom_X1 = 0, zoom_X2 = 0;           // position of two-finger zooming
 let zoom_Y1 = 0, zoom_Y2 = 0;
-let zoom_difX = 0, zoom_difY = 0;
+let zoom_difX = 0, zoom_difY = 0;       // diff. between two fingers
 
 let touchStart = false;
 
