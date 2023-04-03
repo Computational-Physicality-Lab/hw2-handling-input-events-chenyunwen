@@ -10,15 +10,19 @@ of the interaction.
 const body = document.querySelector("body");
 const targets = document.querySelectorAll(".target");
 
-let mode = 0;                   // 0 = mouse, 1 = touch
+const StatesEnum = Object.freeze({"NONE":0, "MOUSE_DOWN":1, "MOVE":2, "DOUBLE_CLICK":3, "CHANGE_SIZE":4, "ESC":5});
+// let mode = 0;                   // 0 = mouse, 1 = touch
+let states = StatesEnum.NONE;
 
+let isClick = true;
 let isMoved = false;            // can do click or not
 let isMouseDown = false;
 let isDoubleClick = false;
 let changeSize = false;
+
 let mouseX = 0, mouseY = 0;     // position when mouse down
 let mouseX_2 = 0, mouseY_2 = 0; // position when mouse down
-let oriW = 0, oriH = 0;         // |mouse - mouse2|
+let ori_touch_W = 0, ori_touch_H = 0;         // |mouse - mouse2|
 let oriX = 0, oriY = 0;         // top-left position of target
 let difX = 0, difY = 0;         // diff. between mouse pos and top-left of target
 let SelectedID = -1;            // idx of currently selecting target
@@ -27,141 +31,220 @@ let oriWidth = 0, oriHeight = 0;
 
 let touchStart = false;
 
-document.addEventListener("click", (event) => {
+body.addEventListener("click", (event) => {
     console.log("Event: click");
-    // console.log(event.detail);
-    /*if(mode == 0){
-        // mouse mode
+        console.log(isClick);
         const isTarget = event.target.classList.contains('target');
-        if(!isMoved && !isTarget ) {
-            // click background
-            targets.forEach(target => { target.style.backgroundColor = "red";});
-        } else if(!isMoved && isTarget) {
-            // change the color of clicked target 
-            targets.forEach(target => { target.style.backgroundColor = "red";});
-            event.target.style.backgroundColor = "#00f";
-        }
-        isMoved = false;
-    } else {*/
-        // touch mode
-        const isTarget = event.target.classList.contains('target');
-        if(!isMoved && !isTarget ) {
+        if(!isMoved && isClick && !isTarget) {
+            // console.log(isClick);
             // click background
             if(targets[SelectedID]) targets[SelectedID].style.backgroundColor = "red";
             SelectedID = -1;
-            // targets.forEach(target => { target.style.backgroundColor = "red";});
         }
+        // states = StatesEnum.NONE;
         isMoved = false;
-    // }
-    
+        isClick = true;
 }, false);
 
-document.addEventListener("mousemove", (e) => {
-    if(!isMouseDown && !isDoubleClick) return;
-    isMoved = true;
-    targets[targetID].style.top = (e.clientY - difY) + "px";
-    targets[targetID].style.left = (e.clientX - difX) + "px";
+body.addEventListener("mousemove", (e) => {
+    if(isDoubleClick){
+        isMoved = true;
+        targets[SelectedID].style.top = (e.clientY - difY) + "px";
+        targets[SelectedID].style.left = (e.clientX - difX) + "px";
+    } else if(isMouseDown){
+        isMoved = true;
+        targets[targetID].style.top = (e.clientY - difY) + "px";
+        targets[targetID].style.left = (e.clientX - difX) + "px";
+    }
+    /*switch(states){
+        case StatesEnum.MOUSE_DOWN:
+            states = StatesEnum.MOVE;
+            targets[targetID].style.top = (e.clientY - difY) + "px";
+            targets[targetID].style.left = (e.clientX - difX) + "px";
+            break;
+        case StatesEnum.MOVE:
+            targets[targetID].style.top = (e.clientY - difY) + "px";
+            targets[targetID].style.left = (e.clientX - difX) + "px";
+            break;
+        case StatesEnum.DOUBLE_CLICK:
+            targets[SelectedID].style.top = (e.clientY - difY) + "px";
+            targets[SelectedID].style.left = (e.clientX - difX) + "px";
+            break;
+        default:
+            return;
+    }*/
+    // if(states != StatesEnum.MOUSE_DOWN && states != StatesEnum.DOUBLE_CLICK) return;
+    // if(states == StatesEnum.MOUSE_DOWN) 
+    // states = StatesEnum.MOVE;
+    // // isMoved = true;
+    // targets[targetID].style.top = (e.clientY - difY) + "px";
+    // targets[targetID].style.left = (e.clientX - difX) + "px";
 }, false);
 
 document.onkeydown = (e) => {
     if(e.keyCode == 27) {
         console.log("Event: ESC");
-        if(isMoved/*isMouseDown || isDoubleClick*/){
-            targets[targetID].style.top = oriY + "px";
-            targets[targetID].style.left = oriX + "px";
-            isMouseDown = false;
-            touchStart = false;
-            isDoubleClick = false;
-            // isMoved = false;
-        }
-    }
-};
-
-function stopChangeSize(){
-    console.log("stopChangeSize");
-    changeSize = false;
-}
-let TimeOut;
-document.addEventListener("touchstart", (e) => {
-    mode = 1;
-    console.log("Event: document.touchstart");
-    
-    if (e.touches.length === 1) { // first finger
-        console.log("first finger");
-        changeSize = true;
-        TimeOut = setTimeout(stopChangeSize, 100);
-    } else 
-    if (e.touches.length === 2) { //second finger
-        console.log("document second finger");
-        if(changeSize){
-            clearTimeout(TimeOut);
-            console.log("clearTimeout: " + changeSize);
-            mouseX_2 = e.targetTouches[1].clientX;
-            mouseY_2 = e.targetTouches[1].clientY;
-            console.log("x2 " + mouseX_2);
-            console.log("y2 " + mouseY_2);
-            oriW = Math.abs(mouseX_2 - mouseX);
-            oriH = Math.abs(mouseY_2 - mouseY);
-        } else if(isMoved/*isMouseDown || isDoubleClick*/){
-            targets[targetID].style.top = oriY + "px";
-            targets[targetID].style.left = oriX + "px";
+        if(isMoved){
+            if(isDoubleClick){
+                targets[SelectedID].style.top = oriY + "px";
+                targets[SelectedID].style.left = oriX + "px";
+                isClick = true;
+            } else {
+                targets[targetID].style.top = oriY + "px";
+                targets[targetID].style.left = oriX + "px";
+                isClick = false;
+            }
             isMouseDown = false;
             touchStart = false;
             isDoubleClick = false;
             isMoved = false;
+            
+        }
+        /*if(states == StatesEnum.MOVE){
+            targets[targetID].style.top = oriY + "px";
+            targets[targetID].style.left = oriX + "px";
+            states = StatesEnum.ESC;
+
+        } else if(states == StatesEnum.DOUBLE_CLICK){
+            targets[SelectedID].style.top = oriY + "px";
+            targets[SelectedID].style.left = oriX + "px";
+            states = StatesEnum.ESC;
+        }*/
+    }
+};
+
+let TimeOut;
+function stopChangeSize(){
+    console.log("stopChangeSize");
+    changeSize = false;
+}
+
+body.addEventListener("touchstart", (e) => {
+    console.log("Event: document.touchstart");
+    
+    if (e.touches.length === 1) { // first finger
+        if(SelectedID < 0) return;
+        console.log("first finger");
+        changeSize = true;
+        TimeOut = setTimeout(stopChangeSize, 100);
+    } else if (e.touches.length === 2) { //second finger
+        console.log("document second finger");
+        if(changeSize){
+            clearTimeout(TimeOut);
+            states = StatesEnum.CHANGE_SIZE;
+            console.log("clearTimeout: " + changeSize);
+            mouseX_2 = e.targetTouches[1].clientX;
+            mouseY_2 = e.targetTouches[1].clientY;
+            ori_touch_W = Math.abs(mouseX_2 - mouseX);
+            ori_touch_H = Math.abs(mouseY_2 - mouseY);
+        // } else if(states == StatesEnum.MOVE || states == StatesEnum.DOUBLE_CLICK){
+        } else if(isMoved){
+            if(isDoubleClick){
+                targets[SelectedID].style.top = oriY + "px";
+                targets[SelectedID].style.left = oriX + "px";
+            } else {
+                targets[targetID].style.top = oriY + "px";
+                targets[targetID].style.left = oriX + "px";
+            }
+            
+            isMouseDown = false;
+            touchStart = false;
+            isDoubleClick = false;
+            isMoved = false;
+            // states = StatesEnum.NONE;
+            targetID = -1;
         }
     }
 });
 
+body.addEventListener("touchend", (e) => {
+    console.log("Event: touchend");
+    if(e.targetTouches.length == 0){
+        targetID = -1;
+        // states = StatesEnum.NONE;
+    }
+    
+});
+
 body.addEventListener("touchmove", (e) => {
-    // mode = 1;
-    console.log("Event: touchmove_touchStart:" +touchStart);
-    if(!touchStart && !isDoubleClick && !changeSize) return;
-    console.log("Event: touchmove");
-    if(!changeSize){
+    if(touchStart){
         isMoved = true;
-        // console.log("top: " + targets[targetID].style.top);
-        // console.log("e.clientY - difY = " + (e.changedTouches[0].clientY - difY));
         targets[targetID].style.top = (e.touches[0].clientY - difY) + "px";
         targets[targetID].style.left = (e.touches[0].clientX - difX) + "px";
-    } else {
-        // console.log(e.targetTouches.length);
-        // console.log(e.changedTouches.length);
-        // if (e.targetTouches.length === 2 && e.changedTouches.length === 2) {}
-
+    } else if(isDoubleClick){
+        isMoved = true;
+        targets[SelectedID].style.top = (e.touches[0].clientY - difY) + "px";
+        targets[SelectedID].style.left = (e.touches[0].clientX - difX) + "px";
+    } else if(changeSize){
         if(!targets[SelectedID]) return;
         console.log("e.targetTouches[1].clientX: " + e.targetTouches[1].clientX);
         let new_width = Number(oriWidth) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - oriW);
         console.log("new_widt: " + new_width);
         targets[SelectedID].style.left = (oriX - ((new_width - oriWidth) / 2)) + "px";
         targets[SelectedID].style.width = new_width + "px";
-        // oriWidth = new_width;
     }
-    
-});
+    /*
+    switch (states){
+        case StatesEnum.MOUSE_DOWN:
+            states = StatesEnum.MOVE;
+            targets[targetID].style.top = (e.touches[0].clientY - difY) + "px";
+            targets[targetID].style.left = (e.touches[0].clientX - difX) + "px";
+            break;
 
-function stopTouchClick(){
-    touchStart = false;
-}
+        case StatesEnum.MOVE:
+            targets[targetID].style.top = (e.touches[0].clientY - difY) + "px";
+            targets[targetID].style.left = (e.touches[0].clientX - difX) + "px";
+            break;
+
+        case StatesEnum.DOUBLE_CLICK:
+            targets[SelectedID].style.top = (e.touches[0].clientY - difY) + "px";
+            targets[SelectedID].style.left = (e.touches[0].clientX - difX) + "px";
+            break;
+
+        case StatesEnum.CHANGE_SIZE:
+            if(!targets[SelectedID]) return;
+            console.log("e.targetTouches[1].clientX: " + e.targetTouches[1].clientX);
+            let new_width = Number(oriWidth) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - oriW);
+            console.log("new_widt: " + new_width);
+            targets[SelectedID].style.left = (oriX - ((new_width - oriWidth) / 2)) + "px";
+            targets[SelectedID].style.width = new_width + "px";
+            break;
+
+        default:
+            return;
+    }
+    */
+    // console.log("Event: touchmove");
+});
 
 targets.forEach((target, index) => {
     target.addEventListener("click", (e) => {
-        if(!isMoved) {
-            // change the color of clicked target 
+        if(!isMoved && isClick){
             if(targets[SelectedID]) targets[SelectedID].style.backgroundColor = "red";
             SelectedID = index;
             target.style.backgroundColor = "#00f";
         }
         isMoved = false;
+        isClick = true;
+        /*
+        if(states == StatesEnum.NONE || states == StatesEnum.DOUBLE_CLICK) {
+            if(targets[SelectedID]) targets[SelectedID].style.backgroundColor = "red";
+            SelectedID = index;
+            target.style.backgroundColor = "#00f";
+        }
+        states = StatesEnum.NONE;
+        */
     }, false);
 
     target.addEventListener("mousedown", (e) => {
         if(isDoubleClick) return;
-        mode = 0;
+
+        // if(states != StatesEnum.NONE) return;
         console.log("Event: mousedown");
+        // states = StatesEnum.MOUSE_DOWN;
         isMouseDown = true;
         targetID = index;
-        console.log(index);
+        // console.log(index);
         oriX = e.target.style.left.split("px")[0];
         oriY = e.target.style.top.split("px")[0];
         mouseX = e.clientX;
@@ -174,22 +257,27 @@ targets.forEach((target, index) => {
 
     target.addEventListener("mouseup", (e) => {
         console.log("Event: mouseup");
-        console.log(index);
+        // console.log(index);
         if(isDoubleClick) isDoubleClick = false;
+        targetID = -1;
         isMouseDown = false;
+        if(isMoved) isClick = false;
+        isMoved = false;
+        // states = StatesEnum.ESC;
     }, false);
 
     target.addEventListener("dblclick", (e) => {
         console.log("Event: dblclick");
+        // states = StatesEnum.DOUBLE_CLICK;
         isDoubleClick = true;
     }, false);
     
     // for touchscreen devices
     target.addEventListener("touchstart", (e) => {
-        mode = 1;
         console.log("Event: touchstart");
         if (e.touches.length === 1) { // first finger
             console.log("first finger");
+            // states = StatesEnum.MOUSE_DOWN;
             touchStart = true;
             targetID = index;
             oriX = e.target.style.left.split("px")[0];
@@ -200,23 +288,25 @@ targets.forEach((target, index) => {
             difY = mouseY - oriY;
             oriWidth = toString(e.target.style.width.split("px")[0]);
             oriHeight = toString(e.target.style.height.split("px")[0]);
-        } else if (e.touches.length === 2) { //second finger
-            console.log("second finger");
-            if(isMoved/*isMouseDown || isDoubleClick*/){
-                targets[targetID].style.top = oriY + "px";
-                targets[targetID].style.left = oriX + "px";
-                isMouseDown = false;
-                touchStart = false;
-                isDoubleClick = false;
-                // isMoved = false;
-            }
-        }
+        } 
+        // else if (e.touches.length === 2) { //second finger
+        //     console.log("second finger");
+        //     if(isMoved/*isMouseDown || isDoubleClick*/){
+        //         targets[targetID].style.top = oriY + "px";
+        //         targets[targetID].style.left = oriX + "px";
+        //         isMouseDown = false;
+        //         touchStart = false;
+        //         isDoubleClick = false;
+        //         // isMoved = false;
+        //     }
+        // }
     });
     target.addEventListener("touchend", (e) => {
-        // mode = 1;
         console.log("Event: touchend");
-        // if(touchStart) console.log("touch click");
-        // else console.log("touch w/o click");
+        // states = StatesEnum.NONE;
         touchStart = false;
+        if(isDoubleClick) isClick = false;
+        else isMoved = false;
+        // if(!isDoubleClick) 
     });
 });
