@@ -43,6 +43,7 @@ body.addEventListener("click", (event) => {
         }
         isMoved = false;
         isClick = true;
+        isDoubleClick = false;
 }, false);
 
 body.addEventListener("mousemove", (e) => {
