@@ -175,6 +175,10 @@ body.addEventListener("touchend", (e) => {
     if(e.targetTouches.length == 0 && changeSize){
         // targetID = -1;
         // states = StatesEnum.NONE;
+        selected_X = targets[SelectedID].style.left.split("px")[0];
+        selected_Y = targets[SelectedID].style.top.split("px")[0];
+        selected_W = targets[SelectedID].style.width.split("px")[0];
+        selected_W = targets[SelectedID].style.height.split("px")[0];
         changeSize = false;
     }
     
@@ -194,6 +198,11 @@ body.addEventListener("touchmove", (e) => {
         isMoved = true;
         targets[targetID].style.top = (e.touches[0].clientY - target_difY) + "px";
         targets[targetID].style.left = (e.touches[0].clientX - target_difX) + "px";
+        // if(targetID == SelectedID) {
+        //     selected_X = (e.touches[0].clientX - target_difX);
+        //     selected_Y = (e.touches[0].clientY - target_difY);
+        // }
+
     } 
     // else if(isDoubleClick){
     //     isMoved = true;
@@ -329,6 +338,12 @@ targets.forEach((target, index) => {
         console.log("Event: touchend");
         // states = StatesEnum.NONE;
         touchStart = false;
+        if(isMoved){
+            if(targetID == SelectedID) {
+                selected_X = (e.touches[0].clientX - target_difX);
+                selected_Y = (e.touches[0].clientY - target_difY);
+            }
+        }
         if(isDoubleClick) isClick = false;
         else isMoved = false;
         // if(!isDoubleClick) 
