@@ -168,7 +168,14 @@ body.addEventListener("touchend", (e) => {
 });
 
 body.addEventListener("touchmove", (e) => {
-    if(touchStart){
+    if(changeSize){
+        if(!targets[SelectedID]) return;
+        console.log("e.targetTouches[1].clientX: " + e.targetTouches[1].clientX);
+        let new_width = Number(oriWidth) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - ori_touch_W);
+        console.log("new_widt: " + new_width);
+        targets[SelectedID].style.left = (oriX - ((new_width - oriWidth) / 2)) + "px";
+        targets[SelectedID].style.width = new_width + "px";
+    } else if(touchStart){
         isMoved = true;
         targets[targetID].style.top = (e.touches[0].clientY - difY) + "px";
         targets[targetID].style.left = (e.touches[0].clientX - difX) + "px";
@@ -176,13 +183,6 @@ body.addEventListener("touchmove", (e) => {
         isMoved = true;
         targets[SelectedID].style.top = (e.touches[0].clientY - difY) + "px";
         targets[SelectedID].style.left = (e.touches[0].clientX - difX) + "px";
-    } else if(changeSize){
-        if(!targets[SelectedID]) return;
-        console.log("e.targetTouches[1].clientX: " + e.targetTouches[1].clientX);
-        let new_width = Number(oriWidth) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - ori_touch_W);
-        console.log("new_widt: " + new_width);
-        targets[SelectedID].style.left = (oriX - ((new_width - oriWidth) / 2)) + "px";
-        targets[SelectedID].style.width = new_width + "px";
     }
     /*
     switch (states){
