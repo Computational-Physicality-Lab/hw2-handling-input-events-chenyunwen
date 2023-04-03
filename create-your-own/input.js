@@ -19,15 +19,20 @@ let isMoved = false;            // can do click or not
 let isMouseDown = false;
 let isDoubleClick = false;
 let changeSize = false;
-
-let mouseX = 0, mouseY = 0;     // position when mouse down
-let mouseX_2 = 0, mouseY_2 = 0; // position when mouse down
-let ori_touch_W = 0, ori_touch_H = 0;         // |mouse - mouse2|
-let oriX = 0, oriY = 0;         // top-left position of target
-let difX = 0, difY = 0;         // diff. between mouse pos and top-left of target
-let SelectedID = -1;            // idx of currently selecting target
+// for target
+let moveX = 0, moveY = 0;     // position when mouse down
+let target_X = 0, target_Y = 0;         // top-left position of target
+let target_difX = 0, target_difY = 0;         // diff. between mouse pos and top-left of target
 let targetID = -1;              // idx of currently interacting target
-let oriWidth = 0, oriHeight = 0;
+
+// for Selected
+let SelectedID = -1;            // idx of currently selecting target
+let selected_X = 0, selected_Y = 0;
+let selected_W = 0, selected_H = 0;
+let zoom_X1 = 0, zoom_X2 = 0;
+let zoom_Y1 = 0, zoom_Y2 = 0;
+let zoom_difX = 0, zoom_difY = 0;
+
 
 let touchStart = false;
 
@@ -47,14 +52,18 @@ body.addEventListener("click", (event) => {
 }, false);
 
 body.addEventListener("mousemove", (e) => {
-    if(isDoubleClick){
+    // if(isDoubleClick){
+    //     isMoved = true;
+    //     targets[SelectedID].style.top = (e.clientY - target_difY) + "px";
+    //     targets[SelectedID].style.left = (e.clientX - target_difX) + "px";
+    // } else 
+    if(isMouseDown || isDoubleClick){
         isMoved = true;
-        targets[SelectedID].style.top = (e.clientY - difY) + "px";
-        targets[SelectedID].style.left = (e.clientX - difX) + "px";
-    } else if(isMouseDown){
-        isMoved = true;
-        targets[targetID].style.top = (e.clientY - difY) + "px";
-        targets[targetID].style.left = (e.clientX - difX) + "px";
+        console.log("isMouseDown: " + isMouseDown);
+        console.log("isDoubleClick: " + isDoubleClick);
+        console.log("targetID: " + targetID);
+        targets[targetID].style.top = (e.clientY - target_difY) + "px";
+        targets[targetID].style.left = (e.clientX - target_difX) + "px";
     }
     /*switch(states){
         case StatesEnum.MOUSE_DOWN:
@@ -85,13 +94,15 @@ document.onkeydown = (e) => {
     if(e.keyCode == 27) {
         console.log("Event: ESC");
         if(isMoved){
+            targets[targetID].style.top = target_Y + "px";
+            targets[targetID].style.left = target_X + "px";
             if(isDoubleClick){
-                targets[SelectedID].style.top = oriY + "px";
-                targets[SelectedID].style.left = oriX + "px";
+                // targets[SelectedID].style.top = target_difY + "px";
+                // targets[SelectedID].style.left = target_difX + "px";
                 isClick = true;
             } else {
-                targets[targetID].style.top = oriY + "px";
-                targets[targetID].style.left = oriX + "px";
+                // targets[targetID].style.top = target_difY + "px";
+                // targets[targetID].style.left = target_difX + "px";
                 isClick = false;
             }
             isMouseDown = false;
@@ -127,25 +138,27 @@ body.addEventListener("touchstart", (e) => {
         console.log("first finger");
         changeSize = true;
         TimeOut = setTimeout(stopChangeSize, 100);
+        zoom_X1 = e.targetTouches[0].clientX;
+        zoom_Y1 = e.targetTouches[0].clientY;
     } else if (e.touches.length === 2) { //second finger
         console.log("document second finger");
         if(changeSize){
             clearTimeout(TimeOut);
-            states = StatesEnum.CHANGE_SIZE;
+            // states = StatesEnum.CHANGE_SIZE;
             console.log("clearTimeout: " + changeSize);
-            mouseX_2 = e.targetTouches[1].clientX;
-            mouseY_2 = e.targetTouches[1].clientY;
-            ori_touch_W = Math.abs(mouseX_2 - mouseX);
-            ori_touch_H = Math.abs(mouseY_2 - mouseY);
+            zoom_X2 = e.targetTouches[1].clientX;
+            zoom_Y2 = e.targetTouches[1].clientY;
+            zoom_difX = Math.abs(zoom_X2 - zoom_X1);
+            zoom_difY = Math.abs(zoom_Y2 - zoom_Y1);
         // } else if(states == StatesEnum.MOVE || states == StatesEnum.DOUBLE_CLICK){
         } else if(isMoved){
-            if(isDoubleClick){
-                targets[SelectedID].style.top = oriY + "px";
-                targets[SelectedID].style.left = oriX + "px";
-            } else {
-                targets[targetID].style.top = oriY + "px";
-                targets[targetID].style.left = oriX + "px";
-            }
+            // if(isDoubleClick){
+            //     targets[SelectedID].style.top = target_Y + "px";
+            //     targets[SelectedID].style.left = target_X + "px";
+            // } else {
+                targets[targetID].style.top = target_Y + "px";
+                targets[targetID].style.left = target_X + "px";
+            // }
             
             isMouseDown = false;
             touchStart = false;
@@ -170,20 +183,23 @@ body.addEventListener("touchend", (e) => {
 body.addEventListener("touchmove", (e) => {
     if(changeSize){
         if(!targets[SelectedID]) return;
+        if(e.targetTouches.length < 2) return;
         console.log("e.targetTouches[1].clientX: " + e.targetTouches[1].clientX);
-        let new_width = Number(oriWidth) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - ori_touch_W);
+        let new_width = Number(selected_W) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - zoom_difX);
         console.log("new_widt: " + new_width);
-        targets[SelectedID].style.left = (oriX - ((new_width - oriWidth) / 2)) + "px";
+        targets[SelectedID].style.left = (selected_X - ((new_width - selected_W) / 2)) + "px";
         targets[SelectedID].style.width = new_width + "px";
-    } else if(touchStart){
+    } else if(touchStart || isDoubleClick){
+        console.log("touchmove");
         isMoved = true;
-        targets[targetID].style.top = (e.touches[0].clientY - difY) + "px";
-        targets[targetID].style.left = (e.touches[0].clientX - difX) + "px";
-    } else if(isDoubleClick){
-        isMoved = true;
-        targets[SelectedID].style.top = (e.touches[0].clientY - difY) + "px";
-        targets[SelectedID].style.left = (e.touches[0].clientX - difX) + "px";
-    }
+        targets[targetID].style.top = (e.touches[0].clientY - target_difY) + "px";
+        targets[targetID].style.left = (e.touches[0].clientX - target_difX) + "px";
+    } 
+    // else if(isDoubleClick){
+    //     isMoved = true;
+    //     targets[SelectedID].style.top = (e.touches[0].clientY - target_difY) + "px";
+    //     targets[SelectedID].style.left = (e.touches[0].clientX - target_difX) + "px";
+    // }
     /*
     switch (states){
         case StatesEnum.MOUSE_DOWN:
@@ -224,6 +240,13 @@ targets.forEach((target, index) => {
             if(targets[SelectedID]) targets[SelectedID].style.backgroundColor = "red";
             SelectedID = index;
             target.style.backgroundColor = "#00f";
+            selected_X = targets[SelectedID].style.left.split("px")[0];
+            selected_Y = targets[SelectedID].style.top.split("px")[0];
+            selected_W = targets[SelectedID].style.width.split("px")[0];
+            selected_H = targets[SelectedID].style.height.split("px")[0];
+            // zoom_X1 = 0, zoom_X2 = 0;
+            // zoom_Y1 = 0, zoom_Y2 = 0;
+            // zoom_difX = 0, zoom_difY = 0;
         }
         isMoved = false;
         isClick = true;
@@ -246,21 +269,19 @@ targets.forEach((target, index) => {
         isMouseDown = true;
         targetID = index;
         // console.log(index);
-        oriX = e.target.style.left.split("px")[0];
-        oriY = e.target.style.top.split("px")[0];
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        difX = mouseX - oriX;
-        difY = mouseY - oriY;
-        oriWidth = e.target.style.width.split("px")[0];
-        oriHeight = e.target.style.height.split("px")[0];
+        target_X = e.target.style.left.split("px")[0];
+        target_Y = e.target.style.top.split("px")[0];
+        moveX = e.clientX;
+        moveY = e.clientY;
+        target_difX = moveX - target_X;
+        target_difY = moveY - target_Y;
     }, false);
 
     target.addEventListener("mouseup", (e) => {
         console.log("Event: mouseup");
         // console.log(index);
         if(isDoubleClick) isDoubleClick = false;
-        targetID = -1;
+        if(isMouseDown && isMoved) targetID = -1;
         isMouseDown = false;
         if(isMoved) isClick = false;
         isMoved = false;
@@ -271,6 +292,7 @@ targets.forEach((target, index) => {
         console.log("Event: dblclick");
         // states = StatesEnum.DOUBLE_CLICK;
         isDoubleClick = true;
+        isMoved = true;
     }, false);
     
     // for touchscreen devices
@@ -281,14 +303,15 @@ targets.forEach((target, index) => {
             // states = StatesEnum.MOUSE_DOWN;
             touchStart = true;
             targetID = index;
-            oriX = e.target.style.left.split("px")[0];
-            oriY = e.target.style.top.split("px")[0];
-            mouseX = e.changedTouches[0].clientX;
-            mouseY = e.changedTouches[0].clientY;
-            difX = mouseX - oriX;
-            difY = mouseY - oriY;
-            oriWidth = toString(e.target.style.width.split("px")[0]);
-            oriHeight = toString(e.target.style.height.split("px")[0]);
+            target_X = e.target.style.left.split("px")[0];
+            target_Y = e.target.style.top.split("px")[0];
+            moveX = e.targetTouches[0].clientX;
+            moveY = e.targetTouches[0].clientY;
+            console.log("moveX: " + moveX);
+            target_difX = moveX - target_X;
+            target_difY = moveY - target_Y;
+            console.log("target_difX: " + target_difX);
+            console.log("target_difY: " + target_difY);
         } 
         // else if (e.touches.length === 2) { //second finger
         //     console.log("second finger");
