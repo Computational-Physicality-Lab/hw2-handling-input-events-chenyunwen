@@ -180,10 +180,13 @@ body.addEventListener("touchend", (e) => {
     if(e.targetTouches.length == 0 && changeSize){
         // targetID = -1;
         // states = StatesEnum.NONE;
-        selected_X = targets[SelectedID].style.left.split("px")[0];
-        selected_Y = targets[SelectedID].style.top.split("px")[0];
-        selected_W = targets[SelectedID].style.width.split("px")[0];
-        selected_W = targets[SelectedID].style.height.split("px")[0];
+        if(targets[SelectedID]){
+            selected_X = targets[SelectedID].style.left.split("px")[0];
+            selected_Y = targets[SelectedID].style.top.split("px")[0];
+            selected_W = targets[SelectedID].style.width.split("px")[0];
+            selected_H = targets[SelectedID].style.height.split("px")[0];
+        }
+        
         changeSize = false;
     }
     
@@ -295,7 +298,7 @@ targets.forEach((target, index) => {
         console.log("Event: mouseup");
         // console.log(index);
         if(isDoubleClick) isDoubleClick = false;
-        if(isMouseDown && isMoved) targetID = -1;
+        // if(isMouseDown && isMoved) targetID = -1;
         isMouseDown = false;
         if(isMoved) isClick = false;
         isMoved = false;
@@ -343,11 +346,11 @@ targets.forEach((target, index) => {
         console.log("Event: touchend");
         // states = StatesEnum.NONE;
         touchStart = false;
-        if(isMoved){
-            if(targetID == SelectedID) {
-                selected_X = (e.touches[0].clientX - target_difX);
-                selected_Y = (e.touches[0].clientY - target_difY);
-            }
+        if(targets[SelectedID]){
+            selected_X = targets[SelectedID].style.left.split("px")[0];
+            selected_Y = targets[SelectedID].style.top.split("px")[0];
+            selected_W = targets[SelectedID].style.width.split("px")[0];
+            selected_H = targets[SelectedID].style.height.split("px")[0];
         }
         if(isDoubleClick) isClick = false;
         else isMoved = false;
