@@ -136,6 +136,7 @@ body.addEventListener("touchstart", (e) => {
     if (e.touches.length === 1) { // first finger
         if(SelectedID < 0) return;
         console.log("first finger");
+        if(isDoubleClick) return;
         changeSize = true;
         TimeOut = setTimeout(stopChangeSize, 100);
         zoom_X1 = e.targetTouches[0].clientX;
@@ -158,6 +159,10 @@ body.addEventListener("touchstart", (e) => {
             // } else {
                 targets[targetID].style.top = target_Y + "px";
                 targets[targetID].style.left = target_X + "px";
+                if(SelectedID == targetID){
+                    selected_X = target_X;
+                    selected_Y = target_Y;
+                }
             // }
             
             isMouseDown = false;
