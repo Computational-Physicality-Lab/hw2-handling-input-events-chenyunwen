@@ -158,10 +158,11 @@ body.addEventListener("touchstart", (e) => {
 });
 
 body.addEventListener("touchend", (e) => {
-    console.log("Event: touchend");
-    if(e.targetTouches.length == 0){
-        targetID = -1;
+    console.log("Event: body.touchend");
+    if(e.targetTouches.length == 0 && changeSize){
+        // targetID = -1;
         // states = StatesEnum.NONE;
+        changeSize = false;
     }
     
 });
@@ -178,7 +179,7 @@ body.addEventListener("touchmove", (e) => {
     } else if(changeSize){
         if(!targets[SelectedID]) return;
         console.log("e.targetTouches[1].clientX: " + e.targetTouches[1].clientX);
-        let new_width = Number(oriWidth) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - oriW);
+        let new_width = Number(oriWidth) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - ori_touch_W);
         console.log("new_widt: " + new_width);
         targets[SelectedID].style.left = (oriX - ((new_width - oriWidth) / 2)) + "px";
         targets[SelectedID].style.width = new_width + "px";
