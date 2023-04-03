@@ -117,6 +117,14 @@ body.addEventListener("touchstart", (e) => {
             isMoved = false;
             targetID = -1;
         }
+    } else {
+        if(changeSize){
+            targets[SelectedID].style.left = selected_X + "px";
+            targets[SelectedID].style.top = selected_Y + "px";
+            targets[SelectedID].style.width = selected_W + "px";
+            targets[SelectedID].style.height = selected_H + "px";
+        }
+        changeSize = false;
     }
 });
 
@@ -143,8 +151,11 @@ body.addEventListener("touchmove", (e) => {
         console.log("e.targetTouches[1].clientX: " + e.targetTouches[1].clientX);
         let new_width = Number(selected_W) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - zoom_difX);
         console.log("new_widt: " + new_width);
-        targets[SelectedID].style.left = (selected_X - ((new_width - selected_W) / 2)) + "px";
-        targets[SelectedID].style.width = new_width + "px";
+        if(new_width > 10){
+            targets[SelectedID].style.left = (selected_X - ((new_width - selected_W) / 2)) + "px";
+            targets[SelectedID].style.width = new_width + "px";
+        }
+        
     } else if(touchStart || isDoubleClick){
         console.log("touchmove");
         isMoved = true;
