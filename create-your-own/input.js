@@ -14,7 +14,7 @@ let isClick = true;             // can do click or not
 let isMoved = false;            // drag or dbclick
 let isMouseDown = false;        // drag or not
 let isDoubleClick = false;
-let touchStart = false;
+let touchStart = false;         // drag or not
 let changeSize = false;         // change size or not
 
 // for target
