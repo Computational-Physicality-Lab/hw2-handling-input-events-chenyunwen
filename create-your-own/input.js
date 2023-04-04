@@ -7,7 +7,7 @@ You will certainly need a large number of global variables to keep track of the 
 of the interaction.
 */
 
-const body = document.querySelector("body");
+const workspace = document.querySelector("#workspace");
 const targets = document.querySelectorAll(".target");
 
 let isClick = true;             // can do click or not
@@ -32,8 +32,8 @@ let zoom_dir = 0;                       // zoom dir, 0 = X, 1 = Y
 
 let touchStart = false;
 
-body.addEventListener("click", (event) => {
-    console.log("Event: click");
+workspace.addEventListener("click", (event) => {
+    console.log("Event: workspace.click");
         console.log(isClick);
         const isTarget = event.target.classList.contains('target');
         if(!isMoved && isClick && !isTarget) {
@@ -46,7 +46,7 @@ body.addEventListener("click", (event) => {
         isDoubleClick = false;
 }, false);
 
-body.addEventListener("mousemove", (e) => {
+workspace.addEventListener("mousemove", (e) => {
     if(isMouseDown || isDoubleClick){
         isMoved = true;
         console.log("isMouseDown: " + isMouseDown);
@@ -82,8 +82,8 @@ function stopChangeSize(){
     changeSize = false;
 }
 
-body.addEventListener("touchstart", (e) => {
-    console.log("Event: document.touchstart");
+workspace.addEventListener("touchstart", (e) => {
+    console.log("Event: workspace.touchstart");
     
     if (e.touches.length === 1) { // first finger
         if(SelectedID < 0) return;
@@ -131,8 +131,8 @@ body.addEventListener("touchstart", (e) => {
     }
 });
 
-body.addEventListener("touchend", (e) => {
-    console.log("Event: body.touchend");
+workspace.addEventListener("touchend", (e) => {
+    console.log("Event: workspace.touchend");
     if(e.targetTouches.length <= 1 && changeSize){
         // targetID = -1;
         if(targets[SelectedID]){
@@ -146,7 +146,7 @@ body.addEventListener("touchend", (e) => {
     
 });
 
-body.addEventListener("touchmove", (e) => {
+workspace.addEventListener("touchmove", (e) => {
     if(changeSize){
         if(!targets[SelectedID]) return;
         if(e.targetTouches.length < 2) return;
