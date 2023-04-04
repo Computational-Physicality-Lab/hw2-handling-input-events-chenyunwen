@@ -20,7 +20,7 @@ https://tranquil-bublanina-fafbaf.netlify.app (透過 CREATE YOUR OWN 按鈕連�
 2. `mousemove`: 加在workspace下，在`isMouseDown`或`isDoubleClick`狀態時會將`isMoved`設為true，並且同時更新編號為`targetID`的`div`位置。因為若是在`isMouseDown`時移動滑鼠代表是為拖曳模式，而在`isDoubleClick`狀態移動滑鼠則為跟隨模式。
 3. `mouseup`:只加在每個target下，若是`isMoved`原先為true，則將`isClick`設為false，表示接下來的第一個觸發的click是為結束拖曳或跟隨模式。將`isMouseDown`、`isMoved`、`isDoubleClick`設為false，表示結束拖曳或跟隨模式。
 4. `click`: 
-- 在workspace下: 如果當下非拖曳或跟隨模式(`!isMoved`)且`isClick`且點擊到背景(非`div`)，則將目前選中的``div`變回紅色。無論如何，發生點擊事件都會將`isClick`設回true(因為若是為結束其他行為，已在此次觸發click時完成)，將`isMoved`、`isDoubleClick`設為false。
+- 在workspace下: 如果當下非拖曳或跟隨模式(`!isMoved`)且`isClick`且點擊到背景(非`div`)，則將目前選中的``div`變回紅色。無論如何，發生點擊事件都會將`isClick`設回true(因為若是為結束其他行為，已在此次觸發click時完成)，將 `isMoved`、`isDoubleClick` 設為false。
 - 在每個target下: 若確認非移動中且是為點擊事件(`!isMoved && isClick`)則將目前被選中(Selected)的`div`設為紅色(若有)，並且將現在被點擊的`div`設為藍色。
 5. `dblclick`: 只加在每個 target 下，雙擊發生在`div`上時將`isDoubleClick`及`isMoved`設為true，觸發跟隨模式。
 6. `ESC`: 如果當下為拖曳或跟隨模式(`isMoved`)，則將編號為`targetID`的`div`位置變回移動之前(`mousedown`時有紀錄)。且若非跟隨模式的話(表示為拖曳模式，滑鼠尚未放開)則將`isClick`設為false。並且將`isMouseDown`、`isMoved`、`isDoubleClick`設為false，表示結束拖曳或跟隨模式。
