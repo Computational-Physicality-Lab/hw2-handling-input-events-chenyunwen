@@ -133,7 +133,7 @@ body.addEventListener("touchstart", (e) => {
 
 body.addEventListener("touchend", (e) => {
     console.log("Event: body.touchend");
-    if(e.targetTouches.length == 0 && changeSize){
+    if(e.targetTouches.length <= 1 && changeSize){
         // targetID = -1;
         if(targets[SelectedID]){
             selected_X = targets[SelectedID].style.left.split("px")[0];
@@ -142,7 +142,7 @@ body.addEventListener("touchend", (e) => {
             selected_H = targets[SelectedID].style.height.split("px")[0];
         }
         
-        changeSize = false;
+        if(e.targetTouches.length === 0) changeSize = false;
     }
     
 });
