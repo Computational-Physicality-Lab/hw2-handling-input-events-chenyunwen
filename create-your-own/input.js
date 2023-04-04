@@ -250,7 +250,7 @@ targets.forEach((target, index) => {
         }
         if(isDoubleClick) {
             isClick = false;
-            isDoubleClick = false;
+            // isDoubleClick = false;
         }
         else isMoved = false;
     });
