@@ -14,7 +14,9 @@ let isClick = true;             // can do click or not
 let isMoved = false;            // drag or dbclick
 let isMouseDown = false;        // drag or not
 let isDoubleClick = false;
+let touchStart = false;
 let changeSize = false;         // change size or not
+
 // for target
 let moveX = 0, moveY = 0;               // position when mouse down on target
 let target_X = 0, target_Y = 0;         // top-left position of target
@@ -30,7 +32,6 @@ let zoom_Y1 = 0, zoom_Y2 = 0;
 let zoom_difX = 0, zoom_difY = 0;       // diff. between two fingers
 let zoom_dir = 0;                       // zoom dir, 0 = X, 1 = Y
 
-let touchStart = false;
 
 workspace.addEventListener("click", (event) => {
     console.log("Event: workspace.click");
