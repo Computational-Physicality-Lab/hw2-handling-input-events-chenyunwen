@@ -37,7 +37,6 @@ body.addEventListener("click", (event) => {
         console.log(isClick);
         const isTarget = event.target.classList.contains('target');
         if(!isMoved && isClick && !isTarget) {
-            // console.log(isClick);
             // click background
             if(targets[SelectedID]) targets[SelectedID].style.backgroundColor = "red";
             SelectedID = -1;
@@ -73,7 +72,6 @@ document.onkeydown = (e) => {
             touchStart = false;
             isDoubleClick = false;
             isMoved = false;
-            
         }
     }
 };
@@ -95,6 +93,7 @@ body.addEventListener("touchstart", (e) => {
         TimeOut = setTimeout(stopChangeSize, 100);
         zoom_X1 = e.targetTouches[0].clientX;
         zoom_Y1 = e.targetTouches[0].clientY;
+
     } else if (e.touches.length === 2) { //second finger
         console.log("document second finger");
         if(changeSize){
@@ -106,6 +105,7 @@ body.addEventListener("touchstart", (e) => {
             zoom_difY = Math.abs(zoom_Y2 - zoom_Y1);
             if(zoom_difX < zoom_difY) zoom_dir = 1;
             else zoom_dir = 0;
+
         } else if(isMoved){
             targets[targetID].style.top = target_Y + "px";
             targets[targetID].style.left = target_X + "px";
@@ -113,13 +113,13 @@ body.addEventListener("touchstart", (e) => {
                 selected_X = target_X;
                 selected_Y = target_Y;
             }
-            
             isMouseDown = false;
             touchStart = false;
             isDoubleClick = false;
             isMoved = false;
             targetID = -1;
         }
+
     } else {
         if(changeSize){
             targets[SelectedID].style.left = selected_X + "px";
@@ -141,7 +141,6 @@ body.addEventListener("touchend", (e) => {
             selected_W = targets[SelectedID].style.width.split("px")[0];
             selected_H = targets[SelectedID].style.height.split("px")[0];
         }
-        
         if(e.targetTouches.length === 0) changeSize = false;
     }
     
@@ -194,7 +193,6 @@ targets.forEach((target, index) => {
 
     target.addEventListener("mousedown", (e) => {
         if(isDoubleClick) return;
-
         console.log("Event: mousedown");
         isMouseDown = true;
         targetID = index;
@@ -208,11 +206,11 @@ targets.forEach((target, index) => {
 
     target.addEventListener("mouseup", (e) => {
         console.log("Event: mouseup");
-        if(isDoubleClick) isDoubleClick = false;
-        // if(isMouseDown && isMoved) targetID = -1;
-        isMouseDown = false;
         if(isMoved) isClick = false;
         isMoved = false;
+        isMouseDown = false;
+        isDoubleClick = false;
+        
     }, false);
 
     target.addEventListener("dblclick", (e) => {
@@ -232,24 +230,14 @@ targets.forEach((target, index) => {
             target_Y = e.target.style.top.split("px")[0];
             moveX = e.targetTouches[0].clientX;
             moveY = e.targetTouches[0].clientY;
-            console.log("moveX: " + moveX);
+            // console.log("moveX: " + moveX);
             target_difX = moveX - target_X;
             target_difY = moveY - target_Y;
-            console.log("target_difX: " + target_difX);
-            console.log("target_difY: " + target_difY);
-        } 
-        // else if (e.touches.length === 2) { //second finger
-        //     console.log("second finger");
-        //     if(isMoved/*isMouseDown || isDoubleClick*/){
-        //         targets[targetID].style.top = oriY + "px";
-        //         targets[targetID].style.left = oriX + "px";
-        //         isMouseDown = false;
-        //         touchStart = false;
-        //         isDoubleClick = false;
-        //         // isMoved = false;
-        //     }
-        // }
+            // console.log("target_difX: " + target_difX);
+            // console.log("target_difY: " + target_difY);
+        }
     });
+
     target.addEventListener("touchend", (e) => {
         console.log("Event: touchend");
         touchStart = false;
