@@ -28,6 +28,7 @@ let selected_W = 0, selected_H = 0;     // W & H of selecting target
 let zoom_X1 = 0, zoom_X2 = 0;           // position of two-finger zooming
 let zoom_Y1 = 0, zoom_Y2 = 0;
 let zoom_difX = 0, zoom_difY = 0;       // diff. between two fingers
+let zoom_dir = 0;                       // zoom dir, 0 = X, 1 = Y
 
 let touchStart = false;
 
@@ -103,6 +104,8 @@ body.addEventListener("touchstart", (e) => {
             zoom_Y2 = e.targetTouches[1].clientY;
             zoom_difX = Math.abs(zoom_X2 - zoom_X1);
             zoom_difY = Math.abs(zoom_Y2 - zoom_Y1);
+            if(zoom_difX < zoom_difY) zoom_dir = 1;
+            else zoom_dir = 0;
         } else if(isMoved){
             targets[targetID].style.top = target_Y + "px";
             targets[targetID].style.left = target_X + "px";
@@ -149,12 +152,22 @@ body.addEventListener("touchmove", (e) => {
         if(!targets[SelectedID]) return;
         if(e.targetTouches.length < 2) return;
         console.log("e.targetTouches[1].clientX: " + e.targetTouches[1].clientX);
-        let new_width = Number(selected_W) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - zoom_difX);
-        console.log("new_widt: " + new_width);
-        if(new_width > 10){
-            targets[SelectedID].style.left = (selected_X - ((new_width - selected_W) / 2)) + "px";
-            targets[SelectedID].style.width = new_width + "px";
+        if(zoom_dir === 0){
+            let new_width = Number(selected_W) + (Math.abs(e.targetTouches[0].clientX - e.targetTouches[1].clientX) - zoom_difX);
+            console.log("new_width: " + new_width);
+            if(new_width > 10){
+                targets[SelectedID].style.left = (selected_X - ((new_width - selected_W) / 2)) + "px";
+                targets[SelectedID].style.width = new_width + "px";
+            }
+        } else {
+            let new_height = Number(selected_H) + (Math.abs(e.targetTouches[0].clientY - e.targetTouches[1].clientY) - zoom_difY);
+            console.log("new_height: " + new_height);
+            if(new_height > 10){
+                targets[SelectedID].style.top = (selected_Y - ((new_height - selected_H) / 2)) + "px";
+                targets[SelectedID].style.height = new_height + "px";
+            }
         }
+        
         
     } else if(touchStart || isDoubleClick){
         console.log("touchmove");
