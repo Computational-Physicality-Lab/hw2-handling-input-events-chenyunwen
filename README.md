@@ -3,8 +3,7 @@
 ### 姓名: 陳允玟
 
 ### 你 deploy 的網站連結
-主頁：https://tranquil-bublanina-fafbaf.netlify.app
-( 方塊頁面： https://tranquil-bublanina-fafbaf.netlify.app/create-your-own/index.html )
+https://tranquil-bublanina-fafbaf.netlify.app (透過 CREATE YOUR OWN 按鈕連結到HW2頁面)
 
 ### 大略解釋你的設計，特別是你如何處理複數個事件處理程序，即你實作事件行為控制的策略
 
